@@ -298,20 +298,11 @@ async function startServer() {
       server: { middlewareMode: true },
       appType: 'spa'
     });
-    app.get('/', (_req, res) => {
-      res.redirect('/ICAP-ECS/');
-    });
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     app.use('/ICAP-ECS', express.static(distPath));
     app.use(express.static(distPath));
-    app.get('/', (_req, res) => {
-      res.redirect('/ICAP-ECS/');
-    });
-    app.get('/ICAP-ECS*', (_req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
     app.get('*', (_req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
