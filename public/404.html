@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICAP ECS - CA Journey</title>
+    <script type="text/javascript">
+      // GitHub Pages SPA router redirect:
+      // When deployed to /ICAP-ECS/, redirect any unmatched path or query back to /ICAP-ECS/
+      var segment = '/ICAP-ECS/';
+      if (!window.location.pathname.startsWith(segment)) {
+        window.location.replace(segment);
+      } else {
+        window.location.replace(segment + window.location.search + window.location.hash);
+      }
+    </script>
+  </head>
+  <body style="font-family: system-ui, sans-serif; background-color: #020617; color: #e2e8f0; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; text-align: center;">
+    <div>
+      <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Loading ICAP ECS...</h2>
+      <p style="color: #94a3b8; font-size: 0.875rem;">Redirecting to practice portal...</p>
+      <a href="/ICAP-ECS/" style="display: inline-block; margin-top: 1rem; padding: 0.5rem 1.25rem; background: #10b981; color: #020617; border-radius: 0.75rem; text-decoration: none; font-weight: bold; font-size: 0.875rem;">
+        Open ICAP ECS
+      </a>
+    </div>
+  </body>
+</html>

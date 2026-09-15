@@ -88,8 +88,37 @@ export async function validateGeminiApiKey(key?: string): Promise<{
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ apiKey: key || '' })
     });
+    if (res.ok) {
+      return await res.json();
+    }
+    // If static hosting returns 404 (e.g. GitHub Pages without server)
+    if (res.status === 404 && key && key.length > 20) {
+      try {
+        const directRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${encodeURIComponent(key)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contents: [{ parts: [{ text: 'Ping' }] }] })
+        });
+        if (directRes.ok) {
+          return { valid: true, model: 'gemini-3.1-flash-lite', isServerKey: false };
+        }
+        return { valid: false, error: 'Invalid API key or unauthorized on Google Generative AI.' };
+      } catch (_) {}
+    }
     return await res.json();
   } catch (err: any) {
+    if (key && key.length > 20) {
+      try {
+        const directRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${encodeURIComponent(key)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contents: [{ parts: [{ text: 'Ping' }] }] })
+        });
+        if (directRes.ok) {
+          return { valid: true, model: 'gemini-3.1-flash-lite', isServerKey: false };
+        }
+      } catch (_) {}
+    }
     return {
       valid: false,
       error: err?.message || 'Network error while contacting validation server'
@@ -249,6 +278,32 @@ export async function callGeminiAPI<T = any>(
       }
 
       if (!response.ok) {
+        if (response.status === 404 && customKey && customKey.length > 20) {
+          try {
+            const directEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/${requestedModel}:generateContent?key=${encodeURIComponent(customKey)}`;
+            const directRes = await fetch(directEndpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: userPrompt }] }],
+                systemInstruction: systemPrompt ? { parts: [{ text: systemPrompt }] } : undefined,
+                generationConfig: isJsonMode ? { responseMimeType: 'application/json' } : undefined
+              })
+            });
+            if (directRes.ok) {
+              const data = await directRes.json();
+              const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (text) {
+                if (!isJsonMode) return text;
+                const parsed = cleanAndParseJSON<T>(text);
+                if (parsed !== null && parsed !== undefined) return parsed;
+                return text as unknown as T;
+              }
+            }
+          } catch (directErr) {
+            console.warn('[api-handler] Direct client Gemini API request failed:', directErr);
+          }
+        }
         const errorBody = await response.json().catch(() => null);
         console.warn(`[api-handler] Server returned status ${response.status}:`, errorBody?.error || response.statusText);
         return fallbackData;
