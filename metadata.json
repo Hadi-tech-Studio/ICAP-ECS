@@ -1,0 +1,6 @@
+{
+  "name": "ICAP ECS - CA Journey",
+  "description": "Official ICAP ECS (English Communication Skills) Practice Test Engine for CA Journey - Comprehensive Aptis General format with Core, Reading, Writing, Audio Hub, and Books & Notes Library.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

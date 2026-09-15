@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio & Visual Learning Hub | ICAP CA English</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-display { font-family: 'Outfit', sans-serif; }
+    .font-urdu { font-family: 'Noto Nastaliq Urdu', serif; line-height: 2.2; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-900 antialiased selection:bg-emerald-500 selection:text-white pb-16">
+
+  <!-- Header -->
+  <header class="bg-slate-900 border-b border-slate-800 text-white sticky top-0 z-40 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500 text-slate-950 font-bold flex items-center justify-center text-lg">
+          🎧
+        </div>
+        <div>
+          <h1 class="font-display font-bold text-lg text-white">Audio & Visual Learning Hub</h1>
+          <p class="text-xs text-slate-400">Web Speech API • ICAP Dialogue Comprehension</p>
+        </div>
+      </div>
+      <a href="/" class="px-3.5 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 rounded-xl text-slate-200 border border-slate-700 transition">
+        Full App Portal &rarr;
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 space-y-6">
+
+    <!-- Hero Card -->
+    <div class="bg-slate-900 text-white rounded-3xl p-6 shadow-xl border border-slate-800">
+      <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+        100% Free & Local Speech Synthesis
+      </span>
+      <h2 class="text-xl sm:text-2xl font-bold font-display text-white mt-1">
+        Audit & Business Communication Listening Lab
+      </h2>
+      <p class="text-xs text-slate-400 max-w-xl">
+        Practice blind listening with slow speech controls (0.75x) or reveal highlighted accounting vocabulary.
+      </p>
+    </div>
+
+    <!-- Audio Player Card -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-5">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+        <div>
+          <span class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 text-emerald-800">Audit & Assurance</span>
+          <h3 class="text-lg font-bold text-slate-900 mt-1">Audit Partner Briefing on Materiality & Risk</h3>
+          <p class="text-xs text-slate-500">Mr. Salman (Audit Partner) & Ayesha (Audit Senior)</p>
+        </div>
+        <button id="toggle-script-btn" class="px-4 py-2 text-xs font-bold bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl transition">
+          👁️ Toggle Script & Vocabulary
+        </button>
+      </div>
+
+      <!-- Controls -->
+      <div class="bg-slate-900 text-white p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <button id="play-audio-btn" class="w-10 h-10 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold flex items-center justify-center">
+            ▶
+          </button>
+          <button id="pause-audio-btn" class="w-10 h-10 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold flex items-center justify-center">
+            ⏸
+          </button>
+          <button id="stop-audio-btn" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold flex items-center justify-center">
+            ⏹
+          </button>
+          <span id="audio-status-text" class="text-xs text-slate-400 ml-2 font-mono">Ready to play</span>
+        </div>
+
+        <!-- Speed -->
+        <div class="flex items-center gap-1 bg-slate-800 p-1 rounded-xl text-xs">
+          <span class="text-slate-400 px-2 font-bold uppercase text-[10px]">Speed:</span>
+          <button class="speed-btn px-2.5 py-1 rounded-lg font-bold text-slate-300 hover:text-white" data-rate="0.75">0.75x (Slow)</button>
+          <button class="speed-btn px-2.5 py-1 rounded-lg font-bold bg-emerald-500 text-slate-950" data-rate="1.0">1.0x (Normal)</button>
+        </div>
+      </div>
+
+      <!-- Script Area (Hidden by default for blind listening) -->
+      <div id="script-container" class="hidden p-5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-xs sm:text-sm leading-relaxed whitespace-pre-line">
+Good morning, team. Today we are initiating the statutory audit for Prime Logistics. Before we execute substantive procedures, I want everyone to revisit our materiality threshold. 
+
+We have set planning materiality at 1.5% of gross revenue, which equates to forty-five million rupees. However, given recent turbulence in fuel hedging contracts, performance materiality is strictly capped at sixty percent of that figure. 
+
+Ayesha, ensure your team substantiates all lease liabilities and scrutinizes any related-party transactions thoroughly. Remember, documentation must be robust enough to withstand independent regulatory scrutiny by ICAP quality review boards.
+      </div>
+
+      <!-- 3 Comprehension Questions -->
+      <div class="pt-4 border-t border-slate-100 space-y-4">
+        <h4 class="font-bold text-slate-900 text-sm">Interactive Comprehension Quiz:</h4>
+        
+        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2 text-xs sm:text-sm">
+          <p class="font-bold text-slate-900">1. What percentage of gross revenue was designated for planning materiality?</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <button class="q-opt p-2.5 bg-white border border-slate-200 rounded-xl text-left hover:bg-slate-100" data-correct="false">A) 0.5%</button>
+            <button class="q-opt p-2.5 bg-white border border-slate-200 rounded-xl text-left hover:bg-slate-100" data-correct="true">B) 1.5%</button>
+            <button class="q-opt p-2.5 bg-white border border-slate-200 rounded-xl text-left hover:bg-slate-100" data-correct="false">C) 5.0%</button>
+            <button class="q-opt p-2.5 bg-white border border-slate-200 rounded-xl text-left hover:bg-slate-100" data-correct="false">D) 10.0%</button>
+          </div>
+          <div id="q1-expl" class="hidden p-2.5 bg-emerald-50 text-emerald-900 text-xs rounded-lg mt-2">
+            <strong>Explanation:</strong> The partner clearly states: "We have set planning materiality at 1.5% of gross revenue."
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual Video Notebook & AI Notes -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl space-y-5">
+      <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+        <div>
+          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-100 text-teal-800">Visual Learning</span>
+          <h3 class="text-lg font-bold text-slate-900 mt-1">ICAP English Video Lecture & AI Notes</h3>
+        </div>
+        <button id="gen-notes-btn" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white flex items-center gap-1.5">
+          ✨ Generate 5 AI Rules
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-7 aspect-video bg-slate-950 rounded-2xl overflow-hidden shadow-md">
+          <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0" allowfullscreen></iframe>
+        </div>
+        <div class="lg:col-span-5 bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2 text-xs">
+          <strong class="text-slate-900 block font-bold mb-1">Subject-Verb Agreement Key Rules:</strong>
+          <div id="ai-notes-list" class="space-y-2">
+            <div class="p-2.5 bg-white rounded-xl border border-slate-200">1. Singular subjects with "along with" take singular verbs.</div>
+            <div class="p-2.5 bg-white rounded-xl border border-slate-200">2. In "Neither... nor", the verb agrees with the closer subject.</div>
+            <div class="p-2.5 bg-white rounded-xl border border-slate-200">3. Collective nouns take singular verbs when acting together.</div>
+            <div class="p-2.5 bg-white rounded-xl border border-slate-200">4. "Each" and "Everyone" strictly take singular verbs.</div>
+            <div class="p-2.5 bg-white rounded-xl border border-slate-200">5. Inverted sentences put auxiliary verbs before the subject.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="/api-handler.js"></script>
+  <script>
+    let currentRate = 1.0;
+    const scriptText = document.getElementById('script-container')?.innerText || '';
+
+    document.getElementById('play-audio-btn')?.addEventListener('click', () => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(scriptText);
+        u.rate = currentRate;
+        u.lang = 'en-GB';
+        window.speechSynthesis.speak(u);
+        document.getElementById('audio-status-text').textContent = 'Playing Audio...';
+        u.onend = () => { document.getElementById('audio-status-text').textContent = 'Finished'; };
+      }
+    });
+
+    document.getElementById('pause-audio-btn')?.addEventListener('click', () => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.pause();
+        document.getElementById('audio-status-text').textContent = 'Paused';
+      }
+    });
+
+    document.getElementById('stop-audio-btn')?.addEventListener('click', () => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        document.getElementById('audio-status-text').textContent = 'Stopped';
+      }
+    });
+
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentRate = parseFloat(btn.getAttribute('data-rate'));
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.className = 'speed-btn px-2.5 py-1 rounded-lg font-bold text-slate-300 hover:text-white';
+        });
+        btn.className = 'speed-btn px-2.5 py-1 rounded-lg font-bold bg-emerald-500 text-slate-950';
+      });
+    });
+
+    document.getElementById('toggle-script-btn')?.addEventListener('click', () => {
+      const el = document.getElementById('script-container');
+      el.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('.q-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const isCorrect = btn.getAttribute('data-correct') === 'true';
+        if (isCorrect) {
+          btn.className = 'q-opt p-2.5 bg-emerald-100 border border-emerald-500 text-emerald-950 font-bold rounded-xl text-left';
+        } else {
+          btn.className = 'q-opt p-2.5 bg-rose-100 border border-rose-400 text-rose-950 line-through rounded-xl text-left';
+        }
+        document.getElementById('q1-expl')?.classList.remove('hidden');
+      });
+    });
+
+    document.getElementById('gen-notes-btn')?.addEventListener('click', async () => {
+      if (window.callGeminiAPI) {
+        const btn = document.getElementById('gen-notes-btn');
+        btn.textContent = 'Generating...';
+        const res = await window.callGeminiAPI('You are an ICAP English teacher. Return 5 rules JSON array.', '5 Subject-Verb Agreement rules', [
+          '1. Rule A with audit examples.',
+          '2. Rule B with audit examples.',
+          '3. Rule C with audit examples.',
+          '4. Rule D with audit examples.',
+          '5. Rule E with audit examples.'
+        ]);
+        if (Array.isArray(res)) {
+          document.getElementById('ai-notes-list').innerHTML = res.map(r => `<div class="p-2.5 bg-white rounded-xl border border-slate-200">${r}</div>`).join('');
+        }
+        btn.textContent = '✨ Generate 5 AI Rules';
+      }
+    });
+  </script>
+</body>
+</html>

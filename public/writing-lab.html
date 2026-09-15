@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Writing & Email Evaluation Lab | ICAP CA English</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-display { font-family: 'Outfit', sans-serif; }
+    .font-urdu { font-family: 'Noto Nastaliq Urdu', serif; line-height: 2.2; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-900 antialiased selection:bg-emerald-500 selection:text-white pb-16">
+
+  <!-- Header -->
+  <header class="bg-slate-900 border-b border-slate-800 text-white sticky top-0 z-40 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500 text-slate-950 font-bold flex items-center justify-center text-lg">
+          ✍️
+        </div>
+        <div>
+          <h1 class="font-display font-bold text-lg text-white">AI Writing & Email Lab</h1>
+          <p class="text-xs text-slate-400">Zero-to-Hero ICAP CA Business Communication</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="/" class="px-3.5 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 rounded-xl text-slate-200 border border-slate-700 transition">
+          Full App Portal &rarr;
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 space-y-6">
+
+    <!-- Hero / Action Banner -->
+    <div class="bg-slate-900 text-white rounded-3xl p-6 shadow-xl border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <span class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+          Gemini 2.5 Flash Evaluator
+        </span>
+        <h2 class="text-xl sm:text-2xl font-bold font-display text-white mt-1">
+          Formal Business Email & Memo Workshop
+        </h2>
+        <p class="text-xs text-slate-400">Target Range: 120–150 words with objective audit tone.</p>
+      </div>
+
+      <button id="generate-scenario-btn" class="px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/20 transition active:scale-95 flex items-center gap-2">
+        ✨ Generate Random ICAP Scenario
+      </button>
+    </div>
+
+    <!-- Scenario Card -->
+    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-3">
+      <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+        <div>
+          <h3 id="scenario-title" class="font-bold text-base text-slate-900">Audit Delay Notification Email</h3>
+          <p id="scenario-meta" class="text-xs text-slate-500">Role: Audit Senior | Recipient: Mr. Tariq Mehmood, Audit Partner</p>
+        </div>
+        <button id="insert-demo-draft-btn" class="text-xs text-emerald-700 font-bold hover:underline">
+          Load Sample Error Draft
+        </button>
+      </div>
+      <p id="scenario-text" class="text-xs sm:text-sm text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200">
+        You are leading the year-end inventory audit at Apex Chemicals Ltd. Due to warehouse safety clearances and unexpected ERP system downtime, physical inventory verification will be delayed by 48 hours. Write a concise, professional 120–150 word formal email to your Audit Partner explaining the delay, highlighting mitigating steps taken, and requesting an extension on the working paper submission deadline.
+      </p>
+    </div>
+
+    <!-- Writing Workspace -->
+    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
+      <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+        <label class="text-sm font-bold text-slate-800">Your Email Draft:</label>
+        
+        <!-- Word counter & badge -->
+        <div class="flex items-center gap-2">
+          <span id="char-word-counter" class="text-xs font-mono bg-slate-100 px-3 py-1 rounded-lg font-bold text-slate-700">
+            0 chars • 0 words
+          </span>
+          <span id="word-badge" class="text-xs font-bold px-3 py-1 rounded-lg bg-amber-100 text-amber-800">
+            Target: 120-150 words
+          </span>
+        </div>
+      </div>
+
+      <textarea id="writing-textarea" rows="8" placeholder="Dear Mr. Tariq,&#10;&#10;I am writing to formally apprise you of an unforeseen delay..." class="w-full p-4 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs sm:text-sm"></textarea>
+
+      <div class="flex justify-end">
+        <button id="analyze-writing-btn" class="px-6 py-3 rounded-xl text-xs sm:text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white shadow-md transition active:scale-95 flex items-center gap-2">
+          ⚡ Analyze Writing (AI Diagnostic)
+        </button>
+      </div>
+    </div>
+
+    <!-- Diagnostic Feedback Dashboard (Hidden until analyzed) -->
+    <div id="diagnostic-dashboard" class="hidden bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl space-y-6">
+      
+      <!-- Top Metrics -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+        <div>
+          <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Diagnostic Assessment</span>
+          <h3 id="overall-score-meter" class="text-3xl font-display font-extrabold text-slate-900 mt-1">
+            Overall Score: 82 / 100
+          </h3>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="p-3 bg-slate-900 text-white rounded-xl text-center min-w-[120px]">
+            <div class="text-[10px] text-slate-400 font-bold uppercase">Band Rating</div>
+            <div id="band-rating-val" class="font-bold text-emerald-400 text-sm">CA Professional</div>
+          </div>
+          <div class="p-3 bg-slate-100 border border-slate-200 rounded-xl text-center min-w-[120px]">
+            <div class="text-[10px] text-slate-500 font-bold uppercase">Tone & Register</div>
+            <div id="tone-detector-val" class="font-bold text-emerald-700 text-sm">Formal</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feedback Paragraphs -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div id="eval-summary" class="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm text-slate-700 leading-relaxed">
+          Strong email structure with appropriate passive voice in audit reporting.
+        </div>
+        <div id="eval-urdu" class="p-4 bg-emerald-50 border border-emerald-100 rounded-2xl text-xs sm:text-sm text-slate-800 leading-relaxed font-urdu">
+          بہترین پروفیشنل ای میل! آپ کا انداز مکمل طور پر باوقار اور امتحانی معیار کے مطابق ہے۔
+        </div>
+      </div>
+
+      <!-- Sentence-by-Sentence Heatmap Table -->
+      <div>
+        <h4 class="font-bold text-slate-900 text-sm mb-3">Sentence-by-Sentence Heatmap Table</h4>
+        <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-900 text-white font-bold uppercase text-[10px]">
+              <tr>
+                <th class="p-3 border-r border-slate-800 w-1/4">Col 1: Original Student Sentence</th>
+                <th class="p-3 border-r border-slate-800 w-1/4">Col 2: Corrected CA Professional Sentence</th>
+                <th class="p-3 border-r border-slate-800 w-1/6">Col 3: Error Type</th>
+                <th class="p-3 w-1/3">Col 4: Simple Explanation</th>
+              </tr>
+            </thead>
+            <tbody id="heatmap-tbody" class="divide-y divide-slate-200">
+              <!-- Injected by writing-lab.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="/api-handler.js"></script>
+  <script src="/writing-lab.js"></script>
+</body>
+</html>
