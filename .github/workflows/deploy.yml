@@ -31,15 +31,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Ensure package-lock.json exists
-        run: |
-          if [ ! -f package-lock.json ]; then
-            echo "package-lock.json not found in repository. Generating one now..."
-            npm i --package-lock-only
-          fi
-
       - name: Install dependencies
-        run: npm ci || npm install
+        run: npm install
 
       - name: Setup Pages
         id: pages
